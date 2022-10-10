@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadhuntersCandidatesDatabase", "HeadhuntersCandidatesDatabase.csproj", "{100CBE6D-92AD-4781-B27B-7A303A07E026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadhuntersCandidatesDatabase", "HeadhuntersCandidatesDatabase.csproj", "{100CBE6D-92AD-4781-B27B-7A303A07E026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadHuntersCandidatesDatabase.Tests", "..\HeadHuntersCandidatesDatabase.Tests\HeadHuntersCandidatesDatabase.Tests.csproj", "{4A202775-C84F-463B-9336-0A477A91CD86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{100CBE6D-92AD-4781-B27B-7A303A07E026}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{100CBE6D-92AD-4781-B27B-7A303A07E026}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{100CBE6D-92AD-4781-B27B-7A303A07E026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A202775-C84F-463B-9336-0A477A91CD86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A202775-C84F-463B-9336-0A477A91CD86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A202775-C84F-463B-9336-0A477A91CD86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A202775-C84F-463B-9336-0A477A91CD86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

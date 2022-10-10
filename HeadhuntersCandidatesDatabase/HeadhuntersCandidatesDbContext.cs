@@ -1,6 +1,6 @@
 ﻿namespace HeadhuntersCandidatesDatabase
 {
-    public class CandidateStorage
+    public class HeadhuntersCandidatesDbContext
     {
     }
 }
