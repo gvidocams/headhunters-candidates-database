@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadhuntersCandidatesDataba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadhuntersCandidatesDatabase.Data", "..\HeadhuntersCandidatesDatabase.Data\HeadhuntersCandidatesDatabase.Data.csproj", "{2E9DDD52-E694-460E-AF50-5C1B1D2D68E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadhuntersCandidatesDatabase.Services", "..\HeadhuntersCandidatesDatabase.Services\HeadhuntersCandidatesDatabase.Services.csproj", "{AA31E89A-7A32-47F0-9A39-EC84E44AAF2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2E9DDD52-E694-460E-AF50-5C1B1D2D68E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E9DDD52-E694-460E-AF50-5C1B1D2D68E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E9DDD52-E694-460E-AF50-5C1B1D2D68E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA31E89A-7A32-47F0-9A39-EC84E44AAF2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA31E89A-7A32-47F0-9A39-EC84E44AAF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA31E89A-7A32-47F0-9A39-EC84E44AAF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA31E89A-7A32-47F0-9A39-EC84E44AAF2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

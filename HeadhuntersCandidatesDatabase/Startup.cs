@@ -10,8 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HeadhuntersCandidatesDatabase.Core.Models;
+using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
 using Microsoft.EntityFrameworkCore;
+using HeadhuntersCandidatesDatabase.Services;
 
 namespace HeadhuntersCandidatesDatabase
 {
@@ -40,6 +43,10 @@ namespace HeadhuntersCandidatesDatabase
             {
                 options.UseSqlite(connectionString);
             });
+
+            services.AddScoped<IDbService, DbService>();
+            services.AddScoped<IEntityService<Company>, EntityService<Company>>();
+            services.AddScoped<IEntityService<Candidate>, EntityService<Candidate>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

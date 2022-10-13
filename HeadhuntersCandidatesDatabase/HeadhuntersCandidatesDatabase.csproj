@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HeadhuntersCandidatesDatabase.Core\HeadhuntersCandidatesDatabase.Core.csproj" />
     <ProjectReference Include="..\HeadhuntersCandidatesDatabase.Data\HeadhuntersCandidatesDatabase.Data.csproj" />
+    <ProjectReference Include="..\HeadhuntersCandidatesDatabase.Services\HeadhuntersCandidatesDatabase.Services.csproj" />
   </ItemGroup>
 
 </Project>

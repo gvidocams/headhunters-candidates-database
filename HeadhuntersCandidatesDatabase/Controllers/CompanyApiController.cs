@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using HeadhuntersCandidatesDatabase.Core.Models;
-using HeadhuntersCandidatesDatabase.Data;
-using Microsoft.AspNetCore.Http;
+﻿using HeadhuntersCandidatesDatabase.Core.Models;
+using HeadhuntersCandidatesDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace HeadhuntersCandidatesDatabase.Controllers
 {
@@ -11,18 +8,18 @@ namespace HeadhuntersCandidatesDatabase.Controllers
     [ApiController]
     public class CompanyApiController : ControllerBase
     {
-        private HeadhuntersCandidatesDbContext _context;
+        private EntityService<Company> _entityService;
 
-        public CompanyApiController(HeadhuntersCandidatesDbContext context)
+        public CompanyApiController(EntityService<Company> entityService)
         {
-            _context = context;
+            _entityService = entityService;
         }
 
         [Route("company/{id}")]
         [HttpGet]
         public IActionResult GetCompany(int id)
         {
-            var company = _context.Companies.FirstOrDefault(c => c.Id == id);
+            var company = _entityService.GetById(id);
             return Ok(company);
         }
 
@@ -30,8 +27,7 @@ namespace HeadhuntersCandidatesDatabase.Controllers
         [HttpPut]
         public IActionResult PutCompany(Company company)
         {
-            _context.Companies.Add(company);
-            _context.SaveChanges();
+            _entityService.Create(company);
 
             return Created("", company);
         }
