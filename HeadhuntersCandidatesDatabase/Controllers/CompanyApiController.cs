@@ -1,5 +1,5 @@
 ﻿using HeadhuntersCandidatesDatabase.Core.Models;
-using HeadhuntersCandidatesDatabase.Services;
+using HeadhuntersCandidatesDatabase.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadhuntersCandidatesDatabase.Controllers
@@ -8,18 +8,23 @@ namespace HeadhuntersCandidatesDatabase.Controllers
     [ApiController]
     public class CompanyApiController : ControllerBase
     {
-        private EntityService<Company> _entityService;
+        private ICompanyService _companyService;
+        private ICompanyPositionService _companyPositionService;
 
-        public CompanyApiController(EntityService<Company> entityService)
+        public CompanyApiController(
+            ICompanyService companyService,
+            ICompanyPositionService companyPositionService)
         {
-            _entityService = entityService;
+            _companyService = companyService;
+            _companyPositionService = companyPositionService;
         }
 
         [Route("company/{id}")]
         [HttpGet]
         public IActionResult GetCompany(int id)
         {
-            var company = _entityService.GetById(id);
+            var company = _companyService.GetById(id);
+
             return Ok(company);
         }
 
@@ -27,9 +32,41 @@ namespace HeadhuntersCandidatesDatabase.Controllers
         [HttpPut]
         public IActionResult PutCompany(Company company)
         {
-            _entityService.Create(company);
+            _companyService.Create(company);
 
             return Created("", company);
+        }
+
+        [Route("company/{id}")]
+        [HttpPut]
+        public IActionResult AddPositionToCompany(int id, Position position)
+        {
+            if (position.OpenedPositions < 1)
+            {
+                return BadRequest();
+            }
+
+            var companyPosition = _companyPositionService.AddPositionToCompany(id, position);
+
+            return Created("", companyPosition);
+        }
+
+        [Route("company/{id}")]
+        [HttpPatch]
+        public IActionResult UpdateCompany(int id, Company company)
+        {
+            _companyService.Update(id, company);
+
+            return Ok(company);
+        }
+
+        [Route("company/{id}")]
+        [HttpDelete]
+        public IActionResult DeleteCompany(int id)
+        {
+            _companyService.Delete(id);
+
+            return Ok();
         }
     }
 }

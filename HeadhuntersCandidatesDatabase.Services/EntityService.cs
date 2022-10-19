@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HeadhuntersCandidatesDatabase.Core.Models;
+﻿using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HeadhuntersCandidatesDatabase.Services
 {
     public class EntityService<T> : DbService, IEntityService<T> where T : Entity
     {
-        public EntityService(HeadhuntersCandidatesDbContext context) : base(context) { }
+        public EntityService(IHeadHuntersCandidatesDbContext context) : base(context) { }
 
         public void Create(T entity)
         {

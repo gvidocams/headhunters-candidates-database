@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HeadhuntersCandidatesDatabase.Core.Models;
+﻿using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HeadhuntersCandidatesDatabase.Services
 {
     public class DbService : IDbService
     {
-        protected HeadhuntersCandidatesDbContext _context;
+        protected IHeadHuntersCandidatesDbContext _context;
 
-        public DbService(HeadhuntersCandidatesDbContext context)
+        public DbService(IHeadHuntersCandidatesDbContext context)
         {
             _context = context;
         }
@@ -23,10 +22,13 @@ namespace HeadhuntersCandidatesDatabase.Services
             _context.SaveChanges();
         }
 
-        public void Delete<T>(T entity) where T : Entity
+        public virtual void Delete<T>(T entity) where T : Entity
         {
-            _context.Set<T>().Remove(entity);
-            _context.SaveChanges();
+            if (entity != null)
+            {
+                _context.Set<T>().Remove(entity);
+                _context.SaveChanges();
+            }
         }
 
         public void Update<T>(T entity) where T : Entity
