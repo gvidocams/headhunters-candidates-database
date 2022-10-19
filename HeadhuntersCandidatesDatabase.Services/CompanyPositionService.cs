@@ -11,6 +11,12 @@ namespace HeadhuntersCandidatesDatabase.Services
         {
         }
 
+        public bool Exists(int companyId, Position position)
+        {
+            return _context.CompanyPositions.Any(c => c.Company.Id == companyId && 
+                                                      c.Position.Title.ToLower() == position.Title.ToLower());
+        }
+
         public CompanyPositions AddPositionToCompany(int companyId, Position position)
         {
             var company = _context.Companies.SingleOrDefault(c => c.Id == companyId);

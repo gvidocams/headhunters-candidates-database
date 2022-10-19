@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using HeadhuntersCandidatesDatabase.Core.Exceptions;
 using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
@@ -17,11 +18,20 @@ namespace HeadhuntersCandidatesDatabase.Services
             _entityService = entityService;
         }
 
+        public bool Exists(int id)
+        {
+            return _context.Positions.Any(p => p.Id == id);
+        }
+
         public PositionSkills ApplySkill(int id, Skill skill)
         {
             var position = _entityService.GetById(id);
 
-            if (position == null) { return null; }
+            if (_context.PositionSkills.Any(ps => ps.Position.Id == position.Id &&
+                                                  ps.Skill.Name.ToLower() == skill.Name.ToLower()))
+            {
+                throw new DuplicateSkillException();
+            }
 
             var existingSkill = _context.Skills
                 .SingleOrDefault(s => s.Name.ToLower() == skill.Name.ToLower());

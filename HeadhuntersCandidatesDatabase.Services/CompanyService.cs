@@ -17,6 +17,17 @@ namespace HeadhuntersCandidatesDatabase.Services
             _entityService = entityService;
         }
 
+        public bool Exists(Company company)
+        {
+            return _context.Companies.Any(c => c.CompanyName.ToLower() == company.CompanyName.ToLower() &&
+                                               c.Description.ToLower() == company.Description.ToLower());
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Companies.Any(c => c.Id == id);
+        }
+
         public void Update(int id, Company company)
         {
             var c = _entityService.GetById(id);
@@ -41,11 +52,17 @@ namespace HeadhuntersCandidatesDatabase.Services
             var positions = _context.Positions
                 .Where(p => companyPositions.Any(cp => cp.Position.Id == p.Id));
 
+            var positionSkills = _context.PositionSkills
+                .Include(ps => ps.Position)
+                .Include(ps => ps.Skill)
+                .Where(ps => positions.Any(p => p.Id == ps.Id));
+
             var appliedCandidates = _context.CandidatesPositions
                 .Include(c => c.Position)
                 .Include(c => c.Candidate)
                 .Where(c => companyPositions.Any(cp => cp.Position.Id == c.Position.Id));
 
+            _context.PositionSkills.RemoveRange(positionSkills);
             _context.CandidatesPositions.RemoveRange(appliedCandidates);
             _context.CompanyPositions.RemoveRange(companyPositions);
             _context.Positions.RemoveRange(positions);

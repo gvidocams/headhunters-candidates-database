@@ -4,6 +4,7 @@ namespace HeadhuntersCandidatesDatabase.Core.Services
 {
     public interface ICandidatePositionService : IEntityService<CandidatePositions>
     {
-        CandidatePositions ApplyCandidateToPosition(int candidateId, int positionId);
+        bool Exists(int id, int positionId);
+        CandidatePositions ApplyCandidateToPosition(int id, int positionId);
     }
 }

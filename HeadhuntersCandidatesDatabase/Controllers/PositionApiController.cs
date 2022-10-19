@@ -1,62 +1,123 @@
-﻿using HeadhuntersCandidatesDatabase.Core.Models;
+﻿using System;
+using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using AutoMapper;
+using HeadhuntersCandidatesDatabase.Core.Validations;
+using HeadhuntersCandidatesDatabase.Models;
 
 namespace HeadhuntersCandidatesDatabase.Controllers
 {
-    [Route("api")]
+    [Route("api/position")]
     [ApiController]
     public class PositionApiController : ControllerBase
     {
         private IPositionService _positionService;
+        private IPositionValidator _positionValidator;
+        private ISkillService _skillService;
+        private ISkillValidator _skillValidator;
+        private IMapper _mapper;
 
-        public PositionApiController(IPositionService positionService)
+        public PositionApiController(
+            IPositionService positionService,
+            IPositionValidator positionValidator,
+            ISkillService skillService,
+            ISkillValidator skillValidator,
+            IMapper mapper)
         {
             _positionService = positionService;
+            _positionValidator = positionValidator;
+            _skillService = skillService;
+            _skillValidator = skillValidator;
+            _mapper = mapper;
         }
 
-        [Route("position/{id}")]
+        [Route("{id}")]
         [HttpGet]
         public IActionResult GetPosition(int id)
         {
             var position = _positionService.GetById(id);
 
-            return Ok(position);
+            if (position == null)
+            {
+                return NotFound();
+            }
+
+            var response = _mapper.Map<PositionRequest>(position);
+
+            return Ok(response);
         }
 
-        [Route("position/{id}")]
+        [Route("{id}/skill")]
         [HttpPut]
         public IActionResult AddSkillToPosition(int id, Skill skill)
         {
-            var positionSkill = _positionService.ApplySkill(id, skill);
+            if (!_skillValidator.IsValid(skill))
+            {
+                return BadRequest();
+            }
 
-            return Ok(positionSkill);
+            if (!_positionService.Exists(id))
+            {
+                return NotFound();
+            }
+
+            PositionSkills positionSkill;
+
+            try
+            {
+                positionSkill = _positionService.ApplySkill(id, skill);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex);
+            }
+
+            return Created("", positionSkill);
         }
 
-        [Route("position/{positionId}/skill/{skillId}")]
+        [Route("{id}/skill/{skillId}")]
         [HttpDelete]
-        public IActionResult RemoveSkillFromPosition(int positionId, int skillId)
+        public IActionResult RemoveSkillFromPosition(int id, int skillId)
         {
-            _positionService.RemoveSkill(positionId, skillId);
+            if (!_positionService.Exists(id) ||
+                !_skillService.Exists(skillId))
+            {
+                return NotFound();
+            }
+
+            _positionService.RemoveSkill(id, skillId);
 
             return Ok();
         }
         
-        [Route("position/{id}")]
+        [Route("{id}")]
         [HttpPatch]
-        public IActionResult UpdatePosition(int id, Position position)
+        public IActionResult UpdatePosition(int id, PositionRequest request)
         {
+            var position = _mapper.Map<Position>(request);
+
+            if (!_positionValidator.IsValid(position))
+            {
+                return BadRequest();
+            }
+
             var p = _positionService.Update(id, position);
 
             return Ok(p);
         }
 
         
-        [Route("position")]
+        [Route("{id}")]
         [HttpDelete]
         public IActionResult DeletePosition(int id)
         {
+            if (!_positionService.Exists(id))
+            {
+                return NotFound();
+            }
+
             _positionService.Delete(id);
 
             return Ok();

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +17,10 @@
     <ProjectReference Include="..\HeadhuntersCandidatesDatabase.Core\HeadhuntersCandidatesDatabase.Core.csproj" />
     <ProjectReference Include="..\HeadhuntersCandidatesDatabase.Data\HeadhuntersCandidatesDatabase.Data.csproj" />
     <ProjectReference Include="..\HeadhuntersCandidatesDatabase.Services\HeadhuntersCandidatesDatabase.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

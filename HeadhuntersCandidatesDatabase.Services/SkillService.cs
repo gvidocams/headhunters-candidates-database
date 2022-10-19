@@ -12,11 +12,31 @@ namespace HeadhuntersCandidatesDatabase.Services
         {
         }
 
+        public bool Exists(Skill skill)
+        {
+            return _context.Skills.Any(s => s.Name.ToLower() == skill.Name.ToLower());
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Skills.Any(s => s.Id == id);
+        }
+
+        public Skill Update(int id, Skill skill)
+        {
+            var s = _context.Skills.SingleOrDefault(s => s.Id == id);
+
+            if (skill.Name != null)
+            {
+                s.Name = skill.Name;
+            }
+
+            return s;
+        }
+
         public void Delete(int id)
         {
             var skill = _context.Skills.SingleOrDefault(s => s.Id == id);
-
-            if(skill == null) { return; }
 
             var candidatesWithSkill = _context.CandidatesSkills
                 .Include(cs => cs.Candidate)

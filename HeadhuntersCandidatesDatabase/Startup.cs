@@ -1,5 +1,7 @@
+using AutoMapper;
 using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
+using HeadhuntersCandidatesDatabase.Core.Validations;
 using HeadhuntersCandidatesDatabase.Data;
 using HeadhuntersCandidatesDatabase.Services;
 using Microsoft.AspNetCore.Builder;
@@ -40,17 +42,26 @@ namespace HeadhuntersCandidatesDatabase
 
             services.AddScoped<IHeadHuntersCandidatesDbContext, HeadhuntersCandidatesDbContext>();
             services.AddScoped<IDbService, DbService>();
+
             services.AddScoped<IEntityService<Company>, EntityService<Company>>();
             services.AddScoped<IEntityService<Candidate>, EntityService<Candidate>>();
             services.AddScoped<IEntityService<Position>, EntityService<Position>>();
             services.AddScoped<IEntityService<CandidatePositions>, EntityService<CandidatePositions>>();
             services.AddScoped<IEntityService<CompanyPositions>, EntityService<CompanyPositions>>();
+
             services.AddScoped<ICandidatePositionService, CandidatePositionService>();
             services.AddScoped<ICompanyPositionService, CompanyPositionService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IPositionService, PositionService>();
             services.AddScoped<ISkillService, SkillService>();
+
+            services.AddScoped<ICandidateValidator, CandidateValidator>();
+            services.AddScoped<ICompanyValidator, CompanyValidator>();
+            services.AddScoped<IPositionValidator, PositionValidator>();
+            services.AddScoped<ISkillValidator, SkillValidator>();
+
+            services.AddSingleton<IMapper>(AutoMapperConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

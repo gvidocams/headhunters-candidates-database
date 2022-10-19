@@ -1,8 +1,9 @@
-﻿using System.Linq;
-using HeadhuntersCandidatesDatabase.Core.Models;
+﻿using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using HeadhuntersCandidatesDatabase.Core.Exceptions;
 
 namespace HeadhuntersCandidatesDatabase.Services
 {
@@ -17,11 +18,27 @@ namespace HeadhuntersCandidatesDatabase.Services
             _entityService = entityService;
         }
 
+        public bool Exists(int id)
+        {
+            return _context.Candidates.Any(c => c.Id == id);
+        }
+
+        public bool Exists(Candidate candidate)
+        {
+            return _context.Candidates.Any(c => c.FullName.ToLower() == candidate.FullName.ToLower() &&
+                                                c.Age == candidate.Age &&
+                                                c.AboutMe.ToLower() == candidate.AboutMe.ToLower());
+        }
+
         public CandidateSkills ApplySkill(int id, Skill skill)
         {
             var candidate = _entityService.GetById(id);
 
-            if (candidate == null) { return null; }
+            if (_context.CandidatesSkills.Any(cs => cs.Candidate.Id == candidate.Id &&
+                                                    cs.Skill.Name.ToLower() == skill.Name.ToLower()))
+            {
+                throw new DuplicateSkillException();
+            }
 
             var existingSkill = _context.Skills
                 .SingleOrDefault(s => s.Name.ToLower() == skill.Name.ToLower());
@@ -48,24 +65,18 @@ namespace HeadhuntersCandidatesDatabase.Services
                 .Include(ps => ps.Candidate)
                 .Include(ps => ps.Skill)
                 .SingleOrDefault(ps => ps.Candidate.Id == candidateId && ps.Skill.Id == skillId);
-
-            if (candidateSkill != null)
-            {
-                _context.CandidatesSkills.Remove(candidateSkill);
-                _context.SaveChanges();
-            }
+            
+            _context.CandidatesSkills.Remove(candidateSkill);
+            _context.SaveChanges();
         }
 
         public Candidate Update(int id, Candidate candidate)
         {
             var c = _entityService.GetById(id);
 
-            if(c == null) { return candidate; }
-
-            if (candidate.FullName != null)
-            {
-                c.FullName = candidate.FullName;
-            }
+            c.FullName = candidate.FullName;
+            c.Age = candidate.Age;
+            c.AboutMe = candidate.AboutMe;
 
             _entityService.Update(c);
 
@@ -75,8 +86,6 @@ namespace HeadhuntersCandidatesDatabase.Services
         public void Delete(int id)
         {
             var candidate = _entityService.GetById(id);
-
-            if(candidate == null) { return; }
 
             var appliedPositions = _context.CandidatesPositions
                 .Include(cp => cp.Candidate)

@@ -12,9 +12,15 @@ namespace HeadhuntersCandidatesDatabase.Services
         {
         }
 
-        public CandidatePositions ApplyCandidateToPosition(int candidateId, int positionId)
+        public bool Exists(int id, int positionId)
         {
-            var candidate = _context.Candidates.SingleOrDefault(c => c.Id == candidateId);
+            return _context.CandidatesPositions.Any(cp => cp.Candidate.Id == id &&
+                                                          cp.Position.Id == positionId);
+        }
+
+        public CandidatePositions ApplyCandidateToPosition(int id, int positionId)
+        {
+            var candidate = _context.Candidates.SingleOrDefault(c => c.Id == id);
             var position = _context.Positions.SingleOrDefault(p => p.Id == positionId);
 
             var candidatePosition = new CandidatePositions() { Candidate = candidate, Position = position };

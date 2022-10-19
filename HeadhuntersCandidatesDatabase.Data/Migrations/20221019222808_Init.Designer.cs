@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeadhuntersCandidatesDatabase.Data.Migrations
 {
     [DbContext(typeof(HeadhuntersCandidatesDbContext))]
-    [Migration("20221018232937_Init")]
+    [Migration("20221019222808_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,6 +22,12 @@ namespace HeadhuntersCandidatesDatabase.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AboutMe")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Age")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FullName")
@@ -81,6 +87,9 @@ namespace HeadhuntersCandidatesDatabase.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CompanyName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

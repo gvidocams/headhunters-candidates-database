@@ -22,6 +22,12 @@ namespace HeadhuntersCandidatesDatabase.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AboutMe")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("FullName")
                         .HasColumnType("TEXT");
 
@@ -79,6 +85,9 @@ namespace HeadhuntersCandidatesDatabase.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CompanyName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

@@ -4,4 +4,11 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Validations\Candidate\" />
+    <Folder Include="Validations\Company\" />
+    <Folder Include="Validations\Skill\" />
+    <Folder Include="Validations\Position\" />
+  </ItemGroup>
+
 </Project>
