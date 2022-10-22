@@ -11,26 +11,24 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 {
     [Route("api/position")]
     [ApiController]
-    public class PositionApiController : ControllerBase
+    public class PositionApiController : BaseHrController
     {
         private IPositionService _positionService;
         private IPositionValidator _positionValidator;
         private ISkillService _skillService;
         private ISkillValidator _skillValidator;
-        private IMapper _mapper;
 
         public PositionApiController(
             IPositionService positionService,
             IPositionValidator positionValidator,
             ISkillService skillService,
             ISkillValidator skillValidator,
-            IMapper mapper)
+            IMapper mapper) : base(mapper)
         {
             _positionService = positionService;
             _positionValidator = positionValidator;
             _skillService = skillService;
             _skillValidator = skillValidator;
-            _mapper = mapper;
         }
 
         [Route("{id}")]
@@ -44,15 +42,17 @@ namespace HeadhuntersCandidatesDatabase.Controllers
                 return NotFound();
             }
 
-            var response = _mapper.Map<PositionRequest>(position);
+            var response = _mapper.Map<PositionResponse>(position);
 
             return Ok(response);
         }
 
         [Route("{id}/skill")]
-        [HttpPut]
-        public IActionResult AddSkillToPosition(int id, Skill skill)
+        [HttpPost]
+        public IActionResult AddSkillToPosition(int id, SkillRequest request)
         {
+            var skill = _mapper.Map<Skill>(request);
+
             if (!_skillValidator.IsValid(skill))
             {
                 return BadRequest();
@@ -105,7 +105,9 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             var p = _positionService.Update(id, position);
 
-            return Ok(p);
+            var response = _mapper.Map<PositionResponse>(p);
+
+            return Ok(response);
         }
 
         

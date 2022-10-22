@@ -39,13 +39,9 @@ namespace HeadhuntersCandidatesDatabase.Services
             var skill = _context.Skills.SingleOrDefault(s => s.Id == id);
 
             var candidatesWithSkill = _context.CandidatesSkills
-                .Include(cs => cs.Candidate)
-                .Include(cs => cs.Skill)
                 .Where(cs => cs.Skill.Id == skill.Id);
 
             var positionsWithSkill = _context.PositionSkills
-                .Include(ps => ps.Position)
-                .Include(ps => ps.Skill)
                 .Where(ps => ps.Skill.Id == skill.Id);
 
             _context.CandidatesSkills.RemoveRange(candidatesWithSkill);

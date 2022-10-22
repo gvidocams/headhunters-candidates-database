@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
@@ -11,32 +13,30 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 {
     [Route("api/candidate")]
     [ApiController]
-    public class CandidateApiController : ControllerBase
+    public class CandidateApiController : BaseHrController
     {
         private ICandidateService _candidateService;
         private ICandidatePositionService _candidatePositionService;
-        private ICandidateValidator _candidateValidator;
+        private IEnumerable<ICandidateValidator> _candidateValidators;
         private IPositionService _positionService;
         private ISkillService _skillService;
         private ISkillValidator _skillValidator;
-        private IMapper _mapper;
 
         public CandidateApiController(
             ICandidateService candidateService,
             ICandidatePositionService candidatePositionService,
-            ICandidateValidator candidateValidator,
+            IEnumerable<ICandidateValidator> candidateValidators,
             IPositionService positionService,
             ISkillService skillService,
             ISkillValidator skillValidator,
-            IMapper mapper)
+            IMapper mapper) : base(mapper)
         {
             _candidateService = candidateService;
             _candidatePositionService = candidatePositionService;
-            _candidateValidator = candidateValidator;
+            _candidateValidators = candidateValidators;
             _positionService = positionService;
             _skillService = skillService;
             _skillValidator = skillValidator;
-            _mapper = mapper;
         }
 
         [Route("{id}")]
@@ -50,17 +50,17 @@ namespace HeadhuntersCandidatesDatabase.Controllers
                 return NotFound();
             }
 
-            var response = _mapper.Map<CandidateRequest>(candidate);
+            var response = _mapper.Map<CandidateResponse>(candidate);
 
             return Ok(response);
         }
         
-        [HttpPut]
+        [HttpPost]
         public IActionResult PutCandidate(CandidateRequest request)
         {
             var candidate = _mapper.Map<Candidate>(request);
 
-            if (!_candidateValidator.IsValid(candidate))
+            if (!_candidateValidators.Any(c => c.IsValid(candidate)))
             {
                 return BadRequest();
             }
@@ -72,13 +72,13 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             _candidateService.Create(candidate);
 
-            request = _mapper.Map<CandidateRequest>(candidate);
+            var response = _mapper.Map<CandidateResponse>(candidate);
 
-            return Created("", request);
+            return Created("", response);
         }
 
         [Route("{id}/position/{positionId}")]
-        [HttpPut]
+        [HttpPost]
         public IActionResult ApplyCandidateToPosition(int id, int positionId)
         {
             if (!_candidateService.Exists(id) ||
@@ -91,14 +91,28 @@ namespace HeadhuntersCandidatesDatabase.Controllers
             {
                 return Conflict();
             }
-            //todo vai šim taisīt mapperi?
+
             var candidatePosition = _candidatePositionService.ApplyCandidateToPosition(id, positionId);
 
             return Created("", candidatePosition);
         }
 
+        [Route("{id}/position/{positionId}")]
+        [HttpDelete]
+        public IActionResult RemoveCandidateFromPosition(int id, int positionId)
+        {
+            if (!_candidatePositionService.Exists(id, positionId))
+            {
+                return NotFound();
+            }
+
+            _candidatePositionService.RemoveCandidateFromPosition(id, positionId);
+
+            return Ok();
+        }
+
         [Route("{id}")]
-        [HttpPut]
+        [HttpPost]
         public IActionResult AddSkillToCandidate(int id, SkillRequest request)
         {
             var skill = _mapper.Map<Skill>(request);
@@ -112,8 +126,7 @@ namespace HeadhuntersCandidatesDatabase.Controllers
             {
                 return NotFound();
             }
-
-            //todo vai šim taisīt mapperi?
+            
             CandidateSkills candidateSkill;
 
             try
@@ -149,7 +162,7 @@ namespace HeadhuntersCandidatesDatabase.Controllers
         {
             var candidate = _mapper.Map<Candidate>(request);
 
-            if (!_candidateValidator.IsValid(candidate))
+            if (_candidateValidators.Any(c => !c.IsValid(candidate)))
             {
                 return BadRequest();
             }
@@ -166,9 +179,9 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             var c = _candidateService.Update(id, candidate);
 
-            request = _mapper.Map<CandidateRequest>(c);
+            var response = _mapper.Map<CandidateResponse>(c);
 
-            return Ok(request);
+            return Ok(response);
         }
 
         [Route("{id}")]

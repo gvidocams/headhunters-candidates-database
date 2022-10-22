@@ -30,5 +30,17 @@ namespace HeadhuntersCandidatesDatabase.Services
 
             return candidatePosition;
         }
+
+        public void RemoveCandidateFromPosition(int id, int positionId)
+        {
+            var candidate = _context.Candidates.SingleOrDefault(c => c.Id == id);
+            var position = _context.Positions.SingleOrDefault(p => p.Id == positionId);
+
+            var candidatePosition = _context.CandidatesPositions.SingleOrDefault(cp => cp.Candidate.Id == id &&
+                                                     cp.Position.Id == positionId);
+
+            _context.CandidatesPositions.Remove(candidatePosition);
+            _context.SaveChanges();
+        }
     }
 }

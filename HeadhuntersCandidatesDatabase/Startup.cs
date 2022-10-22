@@ -22,8 +22,7 @@ namespace HeadhuntersCandidatesDatabase
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -56,15 +55,21 @@ namespace HeadhuntersCandidatesDatabase
             services.AddScoped<IPositionService, PositionService>();
             services.AddScoped<ISkillService, SkillService>();
 
-            services.AddScoped<ICandidateValidator, CandidateValidator>();
-            services.AddScoped<ICompanyValidator, CompanyValidator>();
-            services.AddScoped<IPositionValidator, PositionValidator>();
-            services.AddScoped<ISkillValidator, SkillValidator>();
+            services.AddScoped<ICandidateValidator, CandidateFullNameValidator>();
+            services.AddScoped<ICandidateValidator, CandidateAgeValidator>();
+            services.AddScoped<ICandidateValidator, CandidateAboutMeValidator>();
+
+            services.AddScoped<ICompanyValidator, CompanyCompanyNameValidator>();
+            services.AddScoped<ICompanyValidator, CompanyDescriptionValidator>();
+
+            services.AddScoped<IPositionValidator, PositionTitleValidator>();
+            services.AddScoped<IPositionValidator, PositionOpenedPositionsValidator>();
+
+            services.AddScoped<ISkillValidator, SkillNameValidator>();
 
             services.AddSingleton<IMapper>(AutoMapperConfig.CreateMapper());
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

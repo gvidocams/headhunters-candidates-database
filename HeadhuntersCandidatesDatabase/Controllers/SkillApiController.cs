@@ -10,20 +10,18 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 {
     [Route("api/skill")]
     [ApiController]
-    public class SkillApiController : ControllerBase
+    public class SkillApiController : BaseHrController
     {
         private ISkillService _skillService;
         private ISkillValidator _skillValidator;
-        private IMapper _mapper;
 
         public SkillApiController(
             ISkillService skillService,
             ISkillValidator skillValidator,
-            IMapper mapper)
+            IMapper mapper) : base(mapper)
         {
             _skillService = skillService;
             _skillValidator = skillValidator;
-            _mapper = mapper;
         }
 
         [Route("{id}")]
@@ -37,12 +35,12 @@ namespace HeadhuntersCandidatesDatabase.Controllers
                 return NotFound();
             }
 
-            var response = _mapper.Map<SkillRequest>(skill);
+            var response = _mapper.Map<SkillResponse>(skill);
 
             return Ok(response);
         }
         
-        [HttpPut]
+        [HttpPost]
         public IActionResult PutSkill(SkillRequest request)
         {
             var skill = _mapper.Map<Skill>(request);
@@ -59,9 +57,9 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             _skillService.Create(skill);
 
-            request = _mapper.Map<SkillRequest>(request);
+            var response = _mapper.Map<SkillResponse>(skill);
 
-            return Created("", request);
+            return Created("", response);
         }
 
         [Route("{id}")]
@@ -82,9 +80,9 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             _skillService.Update(id, skill);
 
-            request = _mapper.Map<SkillRequest>(skill);
+            var response = _mapper.Map<SkillResponse>(skill);
 
-            return Ok(request);
+            return Ok(response);
         }
 
         [Route("{id}")]

@@ -62,8 +62,6 @@ namespace HeadhuntersCandidatesDatabase.Services
         public void RemoveSkill(int candidateId, int skillId)
         {
             var candidateSkill = _context.CandidatesSkills
-                .Include(ps => ps.Candidate)
-                .Include(ps => ps.Skill)
                 .SingleOrDefault(ps => ps.Candidate.Id == candidateId && ps.Skill.Id == skillId);
             
             _context.CandidatesSkills.Remove(candidateSkill);
@@ -88,8 +86,6 @@ namespace HeadhuntersCandidatesDatabase.Services
             var candidate = _entityService.GetById(id);
 
             var appliedPositions = _context.CandidatesPositions
-                .Include(cp => cp.Candidate)
-                .Include(cp => cp.Position)
                 .Where(cp => cp.Candidate.Id == candidate.Id);
 
             _context.CandidatesPositions.RemoveRange(appliedPositions);

@@ -11,24 +11,18 @@ namespace HeadhuntersCandidatesDatabase
             var config = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<CandidateRequest, Candidate>()
-                        .ForMember(d => d.Id, opt => opt.Ignore());
-                    cfg.CreateMap<Candidate, CandidateRequest>();
+                    cfg.CreateMap<CandidateRequest, Candidate>();
+                    cfg.CreateMap<Candidate, CandidateResponse>();
 
-                    cfg.CreateMap<CompanyRequest, Company>()
-                        .ForMember(d => d.Id, opt => opt.Ignore());
-                    cfg.CreateMap<Company, CompanyRequest>();
+                    cfg.CreateMap<CompanyRequest, Company>();
+                    cfg.CreateMap<Company, CompanyResponse>();
 
-                    cfg.CreateMap<SkillRequest, Skill>()
-                        .ForMember(d => d.Id, opt => opt.Ignore());
-                    cfg.CreateMap<Skill, SkillRequest>();
+                    cfg.CreateMap<SkillRequest, Skill>();
+                    cfg.CreateMap<Skill, SkillResponse>();
 
-                    cfg.CreateMap<PositionRequest, Position>()
-                        .ForMember(d => d.Id, opt => opt.Ignore());
-                    cfg.CreateMap<Position, PositionRequest>();
+                    cfg.CreateMap<PositionRequest, Position>();
+                    cfg.CreateMap<Position, PositionResponse>();
                 });
-
-            config.AssertConfigurationIsValid();
 
             return config.CreateMapper();
         }

@@ -6,5 +6,6 @@ namespace HeadhuntersCandidatesDatabase.Core.Services
     {
         bool Exists(int id, int positionId);
         CandidatePositions ApplyCandidateToPosition(int id, int positionId);
+        void RemoveCandidateFromPosition(int id, int positionId);
     }
 }

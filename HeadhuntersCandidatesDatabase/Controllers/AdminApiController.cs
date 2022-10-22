@@ -1,8 +1,5 @@
 ﻿using HeadhuntersCandidatesDatabase.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace HeadhuntersCandidatesDatabase.Controllers
 {

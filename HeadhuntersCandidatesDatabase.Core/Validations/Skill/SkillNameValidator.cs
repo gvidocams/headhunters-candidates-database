@@ -2,7 +2,7 @@
 
 namespace HeadhuntersCandidatesDatabase.Core.Validations
 {
-    public class SkillValidator : ISkillValidator
+    public class SkillNameValidator : ISkillValidator
     {
         public bool IsValid(Skill skill)
         {

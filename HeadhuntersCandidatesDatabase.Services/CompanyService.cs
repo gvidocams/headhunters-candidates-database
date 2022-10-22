@@ -45,21 +45,15 @@ namespace HeadhuntersCandidatesDatabase.Services
             var company = _entityService.GetById(id);
 
             var companyPositions = _context.CompanyPositions
-                .Include(cp => cp.Position)
-                .Include(cp => cp.Company)
                 .Where(cp => cp.Company.Id == id);
 
             var positions = _context.Positions
                 .Where(p => companyPositions.Any(cp => cp.Position.Id == p.Id));
 
             var positionSkills = _context.PositionSkills
-                .Include(ps => ps.Position)
-                .Include(ps => ps.Skill)
                 .Where(ps => positions.Any(p => p.Id == ps.Id));
 
             var appliedCandidates = _context.CandidatesPositions
-                .Include(c => c.Position)
-                .Include(c => c.Candidate)
                 .Where(c => companyPositions.Any(cp => cp.Position.Id == c.Position.Id));
 
             _context.PositionSkills.RemoveRange(positionSkills);

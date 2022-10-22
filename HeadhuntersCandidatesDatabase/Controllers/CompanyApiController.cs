@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Core.Validations;
@@ -9,26 +11,24 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 {
     [Route("api/company")]
     [ApiController]
-    public class CompanyApiController : ControllerBase
+    public class CompanyApiController : BaseHrController
     {
-        private ICompanyService _companyService;
-        private ICompanyPositionService _companyPositionService;
-        private ICompanyValidator _companyValidator;
-        private IPositionValidator _positionValidator;
-        private IMapper _mapper;
+        private readonly ICompanyService _companyService;
+        private readonly ICompanyPositionService _companyPositionService;
+        private readonly IEnumerable<ICompanyValidator> _companyValidators;
+        private readonly IEnumerable<IPositionValidator> _positionValidators;
 
         public CompanyApiController(
             ICompanyService companyService,
             ICompanyPositionService companyPositionService,
-            ICompanyValidator companyValidator,
-            IPositionValidator positionValidator,
-            IMapper mapper)
+            IEnumerable<ICompanyValidator> companyValidators,
+            IEnumerable<IPositionValidator> positionValidators,
+            IMapper mapper) : base(mapper)
         {
             _companyService = companyService;
             _companyPositionService = companyPositionService;
-            _companyValidator = companyValidator;
-            _positionValidator = positionValidator;
-            _mapper = mapper;
+            _companyValidators = companyValidators;
+            _positionValidators = positionValidators;
         }
 
         [Route("{id}")]
@@ -42,17 +42,17 @@ namespace HeadhuntersCandidatesDatabase.Controllers
                 return NotFound();
             }
 
-            var response = _mapper.Map<CompanyRequest>(company);
+            var response = _mapper.Map<CompanyResponse>(company);
 
             return Ok(response);
         }
         
-        [HttpPut]
+        [HttpPost]
         public IActionResult PutCompany(CompanyRequest request)
         {
             var company = _mapper.Map<Company>(request);
 
-            if (!_companyValidator.IsValid(company))
+            if (!_companyValidators.Any(c => c.IsValid(company))) 
             {
                 return BadRequest();
             }
@@ -64,18 +64,19 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             _companyService.Create(company);
 
-            request = _mapper.Map<CompanyRequest>(company);
+            var response = _mapper.Map<CompanyResponse>(company);
 
-            return Created("", request);
+            return Created("", response);
         }
 
         [Route("{id}/position")]
-        [HttpPut]
+        [HttpPost]
         public IActionResult AddPositionToCompany(int id, PositionRequest request)
         {
             var position = _mapper.Map<Position>(request);
 
-            if (!_positionValidator.IsValid(position))
+
+            if (!_positionValidators.All(p => p.IsValid(position)))
             {
                 return BadRequest();
             }
@@ -84,8 +85,7 @@ namespace HeadhuntersCandidatesDatabase.Controllers
             {
                 return Conflict();
             }
-
-            //todo vai šim taisīt mapperi?
+            
             var companyPosition = _companyPositionService.AddPositionToCompany(id, position);
 
             return Created("", companyPosition);
@@ -97,7 +97,7 @@ namespace HeadhuntersCandidatesDatabase.Controllers
         {
             var company = _mapper.Map<Company>(request);
 
-            if (!_companyValidator.IsValid(company))
+            if (!_companyValidators.Any(c => c.IsValid(company)))
             {
                 return BadRequest();
             }
@@ -109,9 +109,9 @@ namespace HeadhuntersCandidatesDatabase.Controllers
 
             _companyService.Update(id, company);
 
-            request = _mapper.Map<CompanyRequest>(company);
+            var response = _mapper.Map<CompanyResponse>(company);
 
-            return Ok(request);
+            return Ok(response);
         }
 
         [Route("{id}")]

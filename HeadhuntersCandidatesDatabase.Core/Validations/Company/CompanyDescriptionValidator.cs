@@ -2,12 +2,11 @@
 
 namespace HeadhuntersCandidatesDatabase.Core.Validations
 {
-    public class CompanyValidator : ICompanyValidator
+    public class CompanyDescriptionValidator : ICompanyValidator
     {
         public bool IsValid(Company company)
         {
-            return (!string.IsNullOrEmpty(company.CompanyName) ||
-                   !string.IsNullOrEmpty(company.Description));
+            return !string.IsNullOrEmpty(company.Description);
         }
     }
 }
