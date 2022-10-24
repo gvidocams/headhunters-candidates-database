@@ -3,7 +3,6 @@ using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Core.Validations;
 using HeadhuntersCandidatesDatabase.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadhuntersCandidatesDatabase.Controllers

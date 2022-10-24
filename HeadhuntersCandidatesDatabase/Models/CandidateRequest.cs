@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace HeadhuntersCandidatesDatabase.Models
+﻿namespace HeadhuntersCandidatesDatabase.Models
 {
     public class CandidateRequest
     {

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
 using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using AutoMapper;
 using HeadhuntersCandidatesDatabase.Core.Validations;
 using HeadhuntersCandidatesDatabase.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace HeadhuntersCandidatesDatabase.Controllers
 {
