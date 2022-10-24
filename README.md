@@ -47,9 +47,9 @@ Database has been created with Code First approach and validations have been uni
     
     ```c#
     {
-      fullName: "string",
-      age: integer,
-      aboutMe: "string"
+      "fullName": "string",
+      "age": integer,
+      "aboutMe": "string"
     }
     ```
     
@@ -80,9 +80,9 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      fullName: "string",
-      age: integer,
-      aboutMe: "string"
+      "fullName": "string",
+      "age": integer,
+      "aboutMe": "string"
     }
     ```
 
@@ -99,9 +99,9 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      fullName: "string",
-      age: integer,
-      aboutMe: "string"
+      "fullName": "string",
+      "age": integer,
+      "aboutMe": "string"
     }
     ```
 
@@ -131,8 +131,8 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      companyName: "string",
-      description: "string"
+      "companyName": "string",
+      "description": "string"
     }
     ```
 
@@ -147,8 +147,8 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      title: "string",
-      openedPositons: integer
+      "title": "string",
+      "openedPositons": integer
     }
     ```
 
@@ -163,8 +163,8 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      companyName: "string",
-      description: "string"
+      "companyName": "string",
+      "description": "string"
     }
     ```
 
@@ -193,7 +193,7 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      name: "string",
+      "name": "string",
     }
     ```
 
@@ -215,8 +215,8 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      title: "string",
-      openedPositons: integer
+      "title": "string",
+      "openedPositons": integer
     }
     ```
 
@@ -245,7 +245,7 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      name: "string"
+      "name": "string"
     }
     ```
 
@@ -259,7 +259,7 @@ Database has been created with Code First approach and validations have been uni
 
     ```c#
     {
-      name: "string"
+      "name": "string"
     }
     ```
 
