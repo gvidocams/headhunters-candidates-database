@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using HeadhuntersCandidatesDatabase.Core.Exceptions;
+﻿using HeadhuntersCandidatesDatabase.Core.Exceptions;
 using HeadhuntersCandidatesDatabase.Core.Models;
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace HeadhuntersCandidatesDatabase.Services
 {

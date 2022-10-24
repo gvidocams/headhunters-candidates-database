@@ -2,7 +2,6 @@
 using HeadhuntersCandidatesDatabase.Core.Services;
 using HeadhuntersCandidatesDatabase.Data;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace HeadhuntersCandidatesDatabase.Services
 {

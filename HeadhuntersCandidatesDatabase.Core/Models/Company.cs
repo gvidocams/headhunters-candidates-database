@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace HeadhuntersCandidatesDatabase.Core.Models
+﻿namespace HeadhuntersCandidatesDatabase.Core.Models
 {
     public class Company : Entity
     {
