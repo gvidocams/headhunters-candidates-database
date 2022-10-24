@@ -25,7 +25,7 @@ Database has been created with Code First approach and validations have been uni
 
 <img src="./img/step4.png"/>
 
-* Inside console write `add-migration {migrationName}` and `update-database`;
+* Inside console write `update-database`;
 * Start the project without debugging;
 * Done :)
 
